@@ -155,12 +155,4 @@ app/models/lstm_metrics.joblib
 app/models/lstm_scaler.joblib
 ```
 
-## Resume Bullets
 
-- Architected an AI infrastructure analytics platform that forecasted GPU power demand across LLM inference, computer vision training, batch embedding, multimodal inference, and distributed training workloads using telemetry-driven machine learning models.
-- Reduced simulated power forecasting error to 5.6 kW MAE by engineering a feature pipeline across utilization, memory pressure, temperature, queue depth, and energy pricing signals.
-- Implemented production-style observability using FastAPI, Streamlit, Redis-ready caching, Prometheus metrics, Kafka streaming scaffolding, and Dockerized deployment workflows.
-
-## Project Positioning
-
-This project is designed for roles in AI infrastructure, analytics engineering, MLOps, cloud operations, data engineering, MIS, and business analytics. It demonstrates end-to-end engineering across data ingestion, forecasting, anomaly detection, APIs, dashboarding, monitoring, and deployment.
