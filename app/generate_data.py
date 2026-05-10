@@ -8,7 +8,11 @@ DATA_DIR.mkdir(exist_ok=True)
 np.random.seed(42)
 
 n = 24 * 14 * 12  # 14 days, 5-min intervals
-timestamps = pd.date_range("2026-01-01", periods=n, freq="5min")
+timestamps = timestamps = pd.date_range(
+    end=pd.Timestamp.now(),
+    periods=n,
+    freq="5min"
+)
 
 hour = (timestamps.hour + timestamps.minute / 60).to_numpy()
 weekday = timestamps.dayofweek.to_numpy()
