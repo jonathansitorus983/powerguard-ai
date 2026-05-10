@@ -1,41 +1,166 @@
 # PowerGuard AI
 
-AI infrastructure analytics platform that forecasts short-term GPU power demand, detects abnormal power spikes, and translates telemetry into business-friendly operational insights.
+PowerGuard AI is an AI infrastructure analytics platform that simulates how modern AI data centers monitor GPU-heavy workloads, forecast power demand, and detect operational risk.
 
-## Why this project matters
-AI workloads are expensive because GPU clusters consume large amounts of power and cooling. PowerGuard AI acts like a decision-support system for AI infrastructure teams by forecasting GPU power demand and surfacing cost, utilization, and risk metrics.
+This upgraded version includes production-style features such as API authentication, Redis-ready prediction caching, Prometheus metrics, Kafka streaming scaffolding, Docker deployment, optional NVIDIA telemetry collection, and an optional LSTM forecasting model.
+
+## What It Solves
+
+AI workloads such as LLM inference, computer vision training, batch embedding generation, multimodal inference, and distributed training can create unpredictable GPU utilization, power, and cooling spikes. PowerGuard AI helps teams forecast energy demand, detect abnormal workload behavior, and monitor infrastructure KPIs from one dashboard and API layer.
 
 ## Features
-- Generate realistic synthetic GPU telemetry
-- Train a power forecasting model
-- Detect high-risk power spikes
-- Serve predictions through FastAPI
-- Visualize forecasts, utilization, temperature, and estimated cost in Streamlit
-- Export resume-ready metrics and executive insights
+
+- Streamlit executive dashboard for GPU observability
+- FastAPI prediction endpoint with API key authentication
+- Random Forest power forecasting model
+- Isolation Forest anomaly detection model
+- Redis-ready caching for repeated prediction requests
+- Prometheus `/metrics` endpoint for observability
+- Kafka producer and consumer scaffolding for streaming telemetry
+- Docker and Docker Compose support
+- Optional NVIDIA `nvidia-smi` telemetry collector
+- Optional LSTM forecasting model for sequence prediction
 
 ## Tech Stack
-Python, pandas, scikit-learn, FastAPI, Streamlit, Plotly, joblib
 
-## Quick Start
+Python, FastAPI, Streamlit, Scikit-learn, Pandas, Plotly, Redis, Prometheus, Kafka, Docker, PyTorch optional, GitHub
+
+## Local Setup
+
+Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+```
+
+Generate telemetry data:
+
+```bash
 python app/generate_data.py
-python app/train_model.py
-streamlit run app/dashboard.py
 ```
 
-Optional API:
+Train the forecasting and anomaly models:
 
 ```bash
-uvicorn app.api:app --reload
+python app/train_model.py
 ```
 
-Then visit:
+Run the dashboard:
+
+```bash
+python -m streamlit run app/dashboard.py
+```
+
+Run the API:
+
+```bash
+python -m uvicorn app.api:app --reload
+```
+
+Open API docs:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-## Project Framing for MIS / Business Analytics
-This is not just a machine learning project. It is an AI infrastructure analytics and decision-support platform focused on forecasting operational demand, estimating compute cost, and improving resource planning.
+Use this API key in the `x-api-key` header:
+
+```text
+dev-powerguard-key
+```
+
+## Docker Setup
+
+Run the dashboard, API, Redis, Prometheus, Kafka, and Zookeeper:
+
+```bash
+docker compose up --build
+```
+
+Services:
+
+- Dashboard: `http://localhost:8501`
+- API: `http://localhost:8000/docs`
+- Prometheus: `http://localhost:9090`
+- Redis: `localhost:6379`
+- Kafka: `localhost:9092`
+
+## Prometheus Metrics
+
+The API exposes:
+
+```text
+http://localhost:8000/metrics
+```
+
+Tracked metrics include:
+
+- `powerguard_predictions_total`
+- `powerguard_cache_hits_total`
+- `powerguard_prediction_latency_seconds`
+- `powerguard_latest_predicted_power_kw`
+- `powerguard_latest_risk_flag`
+
+## Kafka Streaming
+
+Start Docker Compose first, then run:
+
+```bash
+python app/streaming/kafka_producer.py
+```
+
+In another terminal:
+
+```bash
+python app/streaming/kafka_consumer.py
+```
+
+This simulates real-time GPU telemetry ingestion from the generated dataset.
+
+## NVIDIA Telemetry
+
+On a machine with NVIDIA drivers installed:
+
+```bash
+python app/collect_nvidia_telemetry.py
+```
+
+This writes real `nvidia-smi` telemetry into:
+
+```text
+data/nvidia_live_telemetry.csv
+```
+
+If no NVIDIA GPU is available, use the synthetic generator.
+
+## Optional LSTM Forecasting
+
+Install advanced dependencies:
+
+```bash
+python -m pip install -r requirements-advanced.txt
+```
+
+Train LSTM model:
+
+```bash
+python app/train_lstm_model.py
+```
+
+This saves:
+
+```text
+app/models/lstm_power_forecaster.pt
+app/models/lstm_metrics.joblib
+app/models/lstm_scaler.joblib
+```
+
+## Resume Bullets
+
+- Architected an AI infrastructure analytics platform that forecasted GPU power demand across LLM inference, computer vision training, batch embedding, multimodal inference, and distributed training workloads using telemetry-driven machine learning models.
+- Reduced simulated power forecasting error to 5.6 kW MAE by engineering a feature pipeline across utilization, memory pressure, temperature, queue depth, and energy pricing signals.
+- Implemented production-style observability using FastAPI, Streamlit, Redis-ready caching, Prometheus metrics, Kafka streaming scaffolding, and Dockerized deployment workflows.
+
+## Project Positioning
+
+This project is designed for roles in AI infrastructure, analytics engineering, MLOps, cloud operations, data engineering, MIS, and business analytics. It demonstrates end-to-end engineering across data ingestion, forecasting, anomaly detection, APIs, dashboarding, monitoring, and deployment.

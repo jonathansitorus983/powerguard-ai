@@ -6,3 +6,7 @@ streamlit
 fastapi
 uvicorn
 joblib
+prometheus-client
+redis
+kafka-python
+python-dotenv
