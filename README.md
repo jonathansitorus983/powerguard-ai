@@ -36,6 +36,3 @@ Then visit:
 ```text
 http://127.0.0.1:8000/docs
 ```
-
-## Project Framing for MIS / Business Analytics
-This is not just a machine learning project. It is an AI infrastructure analytics and decision-support platform focused on forecasting operational demand, estimating compute cost, and improving resource planning.
